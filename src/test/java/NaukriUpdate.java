@@ -3,10 +3,11 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
+import org.testng.annotations.Test;
 
 import java.io.File;
 
-public class Main {
+public class NaukriUpdate {
     public RequestSpecBuilder builder;
     public RequestSpecification requestSpecification;
     public RequestSpecification request;
@@ -89,15 +90,20 @@ public class Main {
         request.post("https://www.naukri.com/cloudgateway-mynaukri/resman-aggregator-services/v0/users/self/profiles/"+id+"/advResume");
     }
 
-    public static void main(String[] args) {
-        Main apiBase = new Main();
-        String username = "sureshg8232@gmail.com";
-        String password = "ss@230";
+    @Test(groups = {"check"})
+    public void test_naukri() {
+        NaukriUpdate apiBase = new NaukriUpdate();
+//        String username = "sureshg8232@gmail.com";
+        String username = System.getProperty("username");
+//        String password = "ss@230";
+        String password = System.getProperty("password");
         String value = apiBase.login(username, password);
         String id = apiBase.dashboard(value);
-        String headline = "QA professional with 6+ years of experience. Expert in Selenium-Java, Playwright-Java, Automation Testing, TestNG, Cucumber, JIRA, API with Rest Assured. Knowledge on Mobile testing using Appium.";
+//        String headline = "QA professional with 6+ years of experience. Expert in Selenium-Java, Playwright-Java, Automation Testing, TestNG, Cucumber, JIRA, API with Rest Assured. Knowledge on Mobile testing using Appium.";
+        String headline = System.getProperty("headline");
         apiBase.updateHeadline(value, id, headline);
-        apiBase.uploadResume("SureshG_AutomationTestEngineer_6+Yrs.pdf");
+//        apiBase.uploadResume("SureshG_AutomationTestEngineer_6+Yrs.pdf");
+        apiBase.uploadResume(System.getProperty("resume"));
         apiBase.submitResume(value, id);
     }
 }
